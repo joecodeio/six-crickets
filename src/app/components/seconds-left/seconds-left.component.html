@@ -1,0 +1,38 @@
+
+<!-- ################################ START ######################################## -->
+
+<!-- I'm using the "async pipe" here to manage the observable subscription -->
+<!-- You'll also notice the new "@if() {}" syntax introduced in Angular V17 to better handle your control work flows -->
+
+<p class="pill">
+
+    @if (secondsLeft$ | async; as secondsLeft) {
+      Seconds left to deadline: {{secondsLeft}}
+    } @else {
+      Calculating deadline...
+    }
+
+</p>
+
+<!-- ################################ END ######################################## -->
+
+
+<!-- ################################ START ######################################## -->
+
+<!-- The older syntax (pre V17) would read something like this -->
+
+<!--
+    <ng-container *ngIf="secondsLeft$ | async as secondsLeft; else noSeconds">
+        <p class="pill">
+            Seconds left to deadline: {{secondsLeft}}
+        </p>
+    </ng-container>
+
+    <ng-template #noSeconds>
+        <p class="pill">
+            Calculating deadline...
+        </p>
+    </ng-template>
+-->
+
+<!-- ################################ END ######################################## -->

@@ -1,0 +1,29 @@
+
+<div class="grid">
+    <div class="pill pill-50">
+        @for (camera of selectedCameras; track $index) {
+            <div class="flex">
+                <p>{{camera.make}} | {{camera.model}}</p>
+                <ul>
+                    <li>{{camera.id}}</li>
+                    <li>{{camera.minLumens}} - {{camera.maxLumens}} (lu)</li>
+                    <li>{{camera.minDistance}} - {{camera.maxDistance}} (ft)</li>
+                </ul>
+            </div>
+        }
+    </div>
+
+    @if (selectedCamera) {
+        <div class="pill pill-50">
+            <div class="flex">
+                <p>{{selectedCamera.make}} | {{selectedCamera.model}}</p>
+                <ul>
+                    <li>{{selectedCamera.id}}</li>
+                    <li>{{selectedCamera.minLumens}} - {{selectedCamera.maxLumens}} (lu)</li>
+                    <li>{{selectedCamera.minDistance}} - {{selectedCamera.maxDistance}} (ft)</li>
+                </ul>
+            </div>
+        </div>
+    }
+
+</div>
