@@ -30,16 +30,32 @@ export class SecondsLeftService {
     // ** and by "basic" I refer to it not tending to error handling, for example, or
     // ** dealing with exceptions etc.
 
-    return this.http.get<ISecondsLeftResponse>(`${HTTP_SERVER}/${this.secondsLeftEndPoint}`)
-    // return of<ISecondsLeftResponse>({secondsLeft: 5432}) // A dummy observable - toggle comment to see it in action
+    // return this.http.get<ISecondsLeftResponse>(`${HTTP_SERVER}/${this.secondsLeftEndPoint}`)
+    return of<ISecondsLeftResponse>({secondsLeft: 10}) // A dummy observable - toggle comment to see it in action
     .pipe(
       take(1), // to make sure you only get one value, and then complete the initial observable
       switchMap(response => { // use the response and switch to the countdown observable
-        return interval(1000).pipe(
-          map(timePassedInSeconds => { // map the object to return a simple number value
-            return response.secondsLeft - timePassedInSeconds; // return the "updated seconds left" value
-          })
-        )
+
+        // ** handle 0 seconds remaining exception
+        if(response.secondsLeft === 0) {
+          return of(0)
+        } else {
+          return interval(1000).pipe(
+            map(timePassedInSeconds => { // map the object to return a simple number value
+              let secondsLeft = response.secondsLeft - timePassedInSeconds;
+              if(secondsLeft > 0) {
+                return secondsLeft
+              } else {
+                return 0
+              }
+              //! REFACTORED
+              // return response.secondsLeft - timePassedInSeconds; // return the "updated seconds left" value
+            })
+            // ** you could work in the "takeUntil" operator here, create a Subject in the service
+            // ** and then trigger this observable once the counter hits zero to force the interval
+            // ** timer to stop emitting values.
+          )
+        }
       })
     )
   }

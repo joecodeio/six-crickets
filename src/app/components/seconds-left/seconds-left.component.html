@@ -6,8 +6,15 @@
 
 <p class="pill">
 
-    @if (secondsLeft$ | async; as secondsLeft) {
-      Seconds left to deadline: {{secondsLeft}}
+    @if ((secondsLeft$ | async) != null) {
+
+        @if((secondsLeft$ | async) === 0) {
+            Times up!!!
+        }
+        @else {
+            Seconds left to deadline: {{secondsLeft$ |async}}
+        }
+        
     } @else {
       Calculating deadline...
     }
